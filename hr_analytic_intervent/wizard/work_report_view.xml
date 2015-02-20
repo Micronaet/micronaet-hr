@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!-- hr.timesheet.work.journal.wizard -->
+       <record id="hr_timesheet_work_journal_wizard_view" model="ir.ui.view">
+            <field name="name">Work Journal</field>
+            <field name="model">hr.timesheet.work.journal.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Work Journal" version="7.0">
+                   <header>
+                       <button string="Cancel" special="cancel" />
+                       <button name="action_open_report" string="Open report" type="object" icon="gtk-jump-to" class="oe_highlight" />
+                   </header>         
+                   <sheet>          
+                       <group colspan="4" col="4">
+                          <field name="summary" />
+                          <newline />
+                          <field name="from_date" />
+                          <field name="to_date" />
+                          <field name="type" />
+                          <field name="account_id" domain="[('type','=','view'),('use_timesheets','=',False),]"/>
+                       </group>
+                   </sheet>    
+                </form>
+            </field>
+      </record>
+      
+      <record model="ir.actions.act_window" id="action_hr_timesheet_work_journal_wizard_view">
+          <field name="name">Work journal</field>
+          <field name="res_model">hr.timesheet.work.journal.wizard</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="target">new</field>
+          <field name="view_id" ref="hr_timesheet_work_journal_wizard_view"/>
+      </record>      
+
+      <menuitem id="menu_hr_analytic_timesheet_intervent_report" parent="hr_attendance.menu_hr_time_tracking" sequence="10" name="Report" />
+          <menuitem id="menu_hr_analytic_timesheet_intervent_report_wizard" parent="menu_hr_analytic_timesheet_intervent_report" sequence="10" name="Work journal" action="action_hr_timesheet_work_journal_wizard_view"/>
+      
+    </data>
+</openerp>

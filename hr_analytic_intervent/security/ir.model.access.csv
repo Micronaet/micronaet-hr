@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_hr_analytic_timesheet_intervent_weather_user","hr.analytic.timesheet.intervent.weather","model_hr_analytic_timesheet_intervent_weather","base.group_user",1,1,1,1
+"access_hr_analytic_timesheet_intervent_user","hr.analytic.timesheet.intervent","model_hr_analytic_timesheet_intervent","base.group_user",1,1,1,1
+"access_account_analytic_account_pricelist_user","account.analytic.account.pricelist","model_account_analytic_account_pricelist","base.group_user",1,1,1,1
+

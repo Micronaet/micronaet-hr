@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>    
+        <!--account.analytic.line-->
+        <record model="ir.ui.view" id="view_account_analytic_line_filter_extra_search">
+            <field name="name">account.analytic.line.extra.search</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="account.view_account_analytic_line_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="partner_id" domain="[('is_company','=',True)]" />
+                    <field name="product_id" />                    
+                </field>
+                <xpath expr="//filter[@string='Product']" position='after'>
+                    <filter string="Partner" context="{'group_by':'partner_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_account_analytic_line_tree_extra_fields">
+            <field name="name">account.analytic.line.extra.tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="account.view_account_analytic_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                    <field name="partner_id"/>
+                    <field name="product_id"/>                    
+                </field>
+                <field name="unit_amount" position="before">
+                    <field name="unit_amount_price" />
+                </field>
+                
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_account_analytic_line_form_extra_fields">
+            <field name="name">account.analytic.line.extra.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="account.view_account_analytic_line_form"/>
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                    <field name="partner_id" readonly="1" />
+                    <field name="work_journal_intervent_id" readonly="1" attrs="{'invisible':[('work_journal_intervent_id','=',False)]}"/>
+                    <field name="work_journal_timesheet_id" readonly="1" attrs="{'invisible':[('work_journal_timesheet_id','=',False)]}"/>
+                </field>
+                <field name="amount" position="before">
+                    <field name="unit_amount_price" readonly="1" />
+                </field>
+                
+            </field>
+        </record>
+        
+        <!--account.analytic.account-->
+        <record model="ir.ui.view" id="view_account_analytic_account_with_partner">
+            <field name="name">account.analytic.account.partner</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account.view_account_analytic_account_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="account_total" />                    
+                    <field name="total_progress" widget="progressbar" />
+                </field>
+                <field name="debit" position="attributes">
+                    <attribute name="string">Ricavi</attribute>
+                </field>
+                <field name="credit" position="attributes">
+                    <attribute name="string">Costi</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_analytic_account_form_with_partner">
+            <field name="name">account.analytic.account.total</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                
+                <field name="manager_id" position="after">
+                    <field name="account_total" />
+                    <field name="total_progress" widget="progressbar" />
+                    <field name="pricelist" />
+                    <field name="pricelist_ids" attrs="{'invisible':[('pricelist','=',False)]}" >
+                        <tree string="Pricelist" editable="bottom">
+                            <field name="product_id" on_change="onchange_product(product_id)"/>
+                            <field name="cost" />
+                            <field name="product_uom" />
+                        </tree>
+                    </field>
+                </field>
+            </field>
+        </record>
+        
+        <!--res.users-->
+        <record model="ir.ui.view" id="view_res_users_hr_employee_registry_field">
+            <field name="name">res.users.form.for.registry</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <field name="menu_id" position="after">
+                    <field name="registry_user" />
+                    <field name="short_name" attrs="{'invisible':[('registry_user','=',False)],'required':[('registry_user','=',True)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <!--hr.employee-->
+        <record model="ir.ui.view" id="view_hr_employee_registry_field">
+            <field name="name">hr.employee.form.for.registry</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="registry_user" readonly="1"/>
+                    <field name="short_name" readonly="1"/>
+                </field>
+            </field>
+        </record>
+                
+        <!--hr.analytic.timesheet.intervent-->
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_search">
+            <field name="name">hr.analytic.timesheet.intervent.search</field>
+            <field name="model">hr.analytic.timesheet.intervent</field>
+            <field name="arch" type="xml">
+                <search string="Intervent">
+                    <field name="date" filter_domain="[('date','=',self)]"/>
+                    <field name="partner_id" filter_domain="[('partner_id','=',self)]" />
+                    <field name="account_id" filter_domain="[('account_id','=',self)]" />
+                    <field name="weather_id" filter_domain="[('weather_id','=',self)]"/>
+
+                    <separator />
+                    <group expand="1" string="Group By...">                
+                        <filter name="group_date" string="Date" icon="terp-accessories-archiver" context="{'group_by':'date'}"/>
+                        <filter name="group_partner" string="Partner" icon="terp-partner" context="{'group_by':'partner_id'}"/>
+                        <filter name="group_analytic" string="Account analytic" icon="terp-partner" context="{'group_by':'account_id'}"/>
+                        <filter name="group_weather" string="Weather" icon="terp-partner" context="{'group_by':'weather_id'}"/>                    
+                    </group>                
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_form">
+            <field name="name">hr.analytic.timesheet.intervent.form</field>
+            <field name="model">hr.analytic.timesheet.intervent</field>
+            <field name="arch" type="xml">
+                <form string="Intervent" version = "7.0">
+                  <sheet>
+                    <group col="6" colspan="4">
+                        <field name="date"/>
+                        <field name="weather_id"/>
+                        <field name="default_hour"/>
+                        <field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('customer','=',True),('is_company','=',True)]"/>
+                        <field name="account_id" domain="[('type','=','view'),('use_timesheets','=',False),('partner_id','=',partner_id)]" 
+                               context="{'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
+                    </group>
+                    <group col="4" colspan="4">
+                        <separator string="Annotazioni (contratto):" colspan="2" />
+                        <separator string="Annotazioni (economia):" colspan="2" />
+                        <field name="name" colspan="2" nolabel="1" />
+                        <field name="economy_note" colspan="2" nolabel="1" />
+
+                        <notebook colspan="4">
+                            <page string="Employee">
+                                <group col="4" colspan="4">
+                                    <field name="employee_ids" colspan="4" nolabel="1" context="{'default_user_id':False,'default_date':date,'parent_account_id':account_id,'default_name':'Intervento generico','default_unit_amount':default_hour}">
+                                        <tree string="Employee" editable="bottom" colors="blue:extra_invoice">
+	                                        <field name="date" invisible = "1"/><!--on_change="on_change_date(date)"-->
+	                                        <field name="ref" invisible = "1"/>
+	                                        <field name="name" invisible = "1"/>
+	                                        <field name="user_id" required="1" on_change="on_change_user_id(user_id)"/>
+	                                        <field name="journal_id" domain="[('type','=','service')]" invisible = "1" />
+	                                        <field name="amount" sum="Total cost" invisible="1" groups="base.group_hr_manager" /> <!--TODO groups!!--> 
+	                                        <field name="product_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1" />
+	                                        <field name="unit_amount" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" sum="Total hour" widget="float_time" />
+	                                        <field name="product_uom_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1"/>
+	                                        <field name="account_id" domain="[('type','=','normal'),('use_timesheets','=',True),('partner_id','=',parent.partner_id)]" on_change="on_change_account_id_bis(account_id, user_id, extra_invoice)" context="{'default_use_timesheets':True,'default_type':'normal','default_partner_id':parent.partner_id}"/>
+	                                        <field name="general_account_id" invisible = "1"/>
+	                                        <field name="company_id" invisible="1" />
+	                                        <field name="to_invoice" invisible="1"/>
+                                            <field name="extra_invoice" on_change="onchange_extra_invoice(extra_invoice,parent.partner_id,parent.account_id,account_id)"/>
+                                            <field name="invoice_id" invisible="1" />
+                                        </tree>
+                                    </field>
+                                 </group>   
+                            </page>    
+                            <page string="Materials">
+                                <group col="8" colspan="4">
+                                    <field name="move_ids" colspan="8" nolabel="1" context="{'default_direction_move':'out','default_type':'out','default_date_expected':date,'parent_account_id':account_id}"> <!-- attrs="{'readonly': [('state','in',('cancel','confirmed'))]}"-->
+                                        <tree string="Materials" editable="bottom" colors="blue:extra_invoice">
+                                            <field name="name" invisible="1"/>
+                                            <field name="date_expected" invisible="1" />
+                                            <field name="extra_invoice" on_change="onchange_extra_invoice(extra_invoice,parent.partner_id,parent.account_id,account_id)" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="direction_move" attrs="{'readonly':[('locked','=',True)]}"  />
+                                            <field name="product_id" on_change="onchange_product_id_name(product_id,parent.account_id)"/>
+                                            <field name="product_qty" />
+                                            <field name="product_uom" />
+                                            <field name="locked" invisible="1" />
+                                            <field name="force_cost_unit" on_change="onchange_force_cost_unit(product_id,parent.account_id,force_cost_unit)" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="cost_unit" invisible="1" groups="base.group_hr_manager" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="account_id" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="analytic_line_id" invisible="1" />
+                                            <field name="type" invisible="1"/>
+                                            <field name="intervent_id" invisible="1"/>
+                                            <field name="location_id" invisible="1"/>
+                                            <field name="location_dest_id" invisible="1"/>
+                                            <field name="state" invisible="1"/>
+                                        </tree>                                    
+                                    </field>
+                                 </group>   
+                            </page>    
+                        </notebook>
+                        <separator string="Osservazioni (contratto):" colspan="2" />
+                        <separator string="Osservazioni (economia):" colspan="2" />
+                        <field name="note" colspan="2" nolabel="1" />
+                        <field name="economy_observation" colspan="2" nolabel="1" />
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_tree">
+            <field name="name">hr.analytic.timesheet.intervent.tree</field>
+            <field name="model">hr.analytic.timesheet.intervent</field>
+            <field name="arch" type="xml">
+                <tree string="Intervent">
+                     <field name="date"/>
+                     <field name="partner_id" />
+                     <field name="account_id" />
+                     <field name="name"/>
+                     <field name="weather_id"/>
+                     <field name="default_hour"/>
+                     <field name="invoice_costs"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_graph">
+            <field name="name">hr.analytic.timesheet.intervent.graph</field>
+            <field name="model">hr.analytic.timesheet.intervent</field>
+            <field name="arch" type="xml">
+                <graph string="Intervent" type="bar" orientation="horizontal">
+                    <field name="account_id"/>
+                    <field name="default_hour" operator="+"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_calendar">
+            <field name="name">hr.analytic.timesheet.intervent.calendar</field>
+            <field name="model">hr.analytic.timesheet.intervent</field>
+            <field name="arch" type="xml">
+                <calendar color="account_id" date_start="date" string="Intervent" mode="week">
+                     <field name="date"/>
+                     <field name="partner_id" />
+                     <field name="account_id" />
+                     <field name="name"/>
+                     <field name="weather_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_analytic_timesheet_intervent_form">
+            <field name="name">Intervent list</field>
+            <field name="res_model">hr.analytic.timesheet.intervent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="view_id" ref="view_hr_analytic_timesheet_intervent_tree"/>
+            <field name="search_view_id" ref="view_hr_analytic_timesheet_intervent_search"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+     
+        <!--hr.analytic.timesheet.intervent.weather-->
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_weather_form">
+            <field name="name">hr.analytic.timesheet.intervent..weatherform</field>
+            <field name="model">hr.analytic.timesheet.intervent.weather</field>
+            <field name="arch" type="xml">
+                <form string="Weather" version = "7.0">
+                  <sheet>
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <newline />
+                        <separator string="Annotations:" colspan="4" />
+                        <field name="note" colspan="4" nolabel = "1" />
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_weather_tree">
+            <field name="name">hr.analytic.timesheet.intervent.weather.tree</field>
+            <field name="model">hr.analytic.timesheet.intervent.weather</field>
+            <field name="arch" type="xml">
+                <tree string="Weather">
+                     <field name="name"/>
+                     <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_analytic_timesheet_intervent_weather_form">
+            <field name="name">Weather</field>
+            <field name="res_model">hr.analytic.timesheet.intervent.weather</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_analytic_timesheet_intervent_weather_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+        <menuitem id="menu_hr_analytic_timesheet_intervent" parent="hr_attendance.menu_hr_time_tracking" sequence="5" name="Work journal" action="action_hr_analytic_timesheet_intervent_form"/>  
+        <menuitem id="menu_hr_analytic_timesheet_intervent_weather" parent="hr.menu_hr_configuration" sequence="30" name="Weather" action="action_hr_analytic_timesheet_intervent_weather_form"/>
+      
+    </data>
+</openerp> 

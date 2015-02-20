@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="timesheet_invoice_factor_100" model="hr_timesheet_invoice.factor">
+            <field name="name">To invoice (100%)</field>
+            <field name="customer_name">100%</field>
+            <field name="factor">0.0</field>
+        </record>
+        <!--<record id="timesheet_invoice_factor_0" model="hr_timesheet_invoice.factor">
+            <field name="name">No invoice 0%</field>
+            <field name="customer_name">0%</field>
+            <field name="factor">100.0</field>
+        </record>-->
+    </data>
+</openerp>
