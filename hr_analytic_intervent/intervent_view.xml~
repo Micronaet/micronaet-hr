@@ -38,8 +38,10 @@
             <field name="arch" type="xml">
                 <field name="account_id" position="after">
                     <field name="partner_id" readonly="1" />
-                    <field name="work_journal_intervent_id" readonly="1" attrs="{'invisible':[('work_journal_intervent_id','=',False)]}"/>
-                    <field name="work_journal_timesheet_id" readonly="1" attrs="{'invisible':[('work_journal_timesheet_id','=',False)]}"/>
+                    <field name="work_journal_intervent_id" readonly="1" 
+                        attrs="{'invisible':[('work_journal_intervent_id','=',False)]}"/>
+                    <field name="work_journal_timesheet_id" readonly="1" 
+                        attrs="{'invisible':[('work_journal_timesheet_id','=',False)]}"/>
                 </field>
                 <field name="amount" position="before">
                     <field name="unit_amount_price" readonly="1" />
@@ -97,7 +99,7 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
-                <field name="menu_id" position="after">
+                <field name="active" position="after">
                     <field name="registry_user" />
                     <field name="short_name" attrs="{'invisible':[('registry_user','=',False)],'required':[('registry_user','=',True)]}"/>
                 </field>
@@ -150,7 +152,7 @@
                         <field name="weather_id"/>
                         <field name="default_hour"/>
                         <field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('customer','=',True),('is_company','=',True)]"/>
-                        <field name="account_id" domain="[('type','=','view'),('use_timesheets','=',False),('partner_id','=',partner_id)]" 
+                        <field name="account_id" domain="[('use_timesheets','=',False),('partner_id','=',partner_id)]" 
                                context="{'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
                     </group>
                     <group col="4" colspan="4">
@@ -168,12 +170,12 @@
 	                                        <field name="ref" invisible = "1"/>
 	                                        <field name="name" invisible = "1"/>
 	                                        <field name="user_id" required="1" on_change="on_change_user_id(user_id)"/>
-	                                        <field name="journal_id" domain="[('type','=','service')]" invisible = "1" />
+	                                        <!--<field name="journal_id" domain="[('type','=','service')]" invisible = "1" /> ('type','=','view'),   ('type','=','normal')    -->
 	                                        <field name="amount" sum="Total cost" invisible="1" groups="base.group_hr_manager" /> <!--TODO groups!!--> 
 	                                        <field name="product_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1" />
 	                                        <field name="unit_amount" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" sum="Total hour" widget="float_time" />
 	                                        <field name="product_uom_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1"/>
-	                                        <field name="account_id" domain="[('type','=','normal'),('use_timesheets','=',True),('partner_id','=',parent.partner_id)]" on_change="on_change_account_id_bis(account_id, user_id, extra_invoice)" context="{'default_use_timesheets':True,'default_type':'normal','default_partner_id':parent.partner_id}"/>
+	                                        <field name="account_id" domain="[('use_timesheets','=',True),('partner_id','=',parent.partner_id)]" on_change="on_change_account_id_bis(account_id, user_id, extra_invoice)" context="{'default_use_timesheets':True,'default_type':'normal','default_partner_id':parent.partner_id}"/>
 	                                        <field name="general_account_id" invisible = "1"/>
 	                                        <field name="company_id" invisible="1" />
 	                                        <field name="to_invoice" invisible="1"/>

@@ -99,7 +99,7 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
-                <field name="menu_id" position="after">
+                <field name="active" position="after">
                     <field name="registry_user" />
                     <field name="short_name" attrs="{'invisible':[('registry_user','=',False)],'required':[('registry_user','=',True)]}"/>
                 </field>
@@ -201,7 +201,7 @@
                                             <field name="cost_unit" invisible="1" groups="base.group_hr_manager" attrs="{'readonly':[('locked','=',True)]}" />
                                             <field name="account_id" attrs="{'readonly':[('locked','=',True)]}" />
                                             <field name="analytic_line_id" invisible="1" />
-                                            <field name="type" invisible="1"/>
+                                            <!--<field name="type" invisible="1"/>-->
                                             <field name="intervent_id" invisible="1"/>
                                             <field name="location_id" invisible="1"/>
                                             <field name="location_dest_id" invisible="1"/>
