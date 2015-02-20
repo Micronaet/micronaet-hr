@@ -38,10 +38,8 @@
             <field name="arch" type="xml">
                 <field name="account_id" position="after">
                     <field name="partner_id" readonly="1" />
-                    <field name="work_journal_intervent_id" readonly="1" 
-                        attrs="{'invisible':[('work_journal_intervent_id','=',False)]}"/>
-                    <field name="work_journal_timesheet_id" readonly="1" 
-                        attrs="{'invisible':[('work_journal_timesheet_id','=',False)]}"/>
+                    <field name="work_journal_intervent_id" readonly="1" attrs="{'invisible':[('work_journal_intervent_id','=',False)]}"/>
+                    <field name="work_journal_timesheet_id" readonly="1" attrs="{'invisible':[('work_journal_timesheet_id','=',False)]}"/>
                 </field>
                 <field name="amount" position="before">
                     <field name="unit_amount_price" readonly="1" />

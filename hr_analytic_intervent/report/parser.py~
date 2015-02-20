@@ -151,13 +151,11 @@ class Parser(report_sxw.rml_parse):
                 if employee.line_id.user_id.short_name == self.employee_list[position]:
                     data_filter = data.get('type', 'all')
                     if economy:
-                        if data_filter in (
-                                'all', 'economy') and employee.extra_invoice:
+                        if data_filter in ('all', 'economy') and employee.extra_invoice:
                             tot += employee.unit_amount or 0.0
                             self.summary_user[position][1] += employee.unit_amount or 0.0
                     else: # work
-                        if data_filter in (
-                                'all', 'only') and not employee.extra_invoice:
+                        if data_filter in ('all', 'only') and not employee.extra_invoice:
                             tot += employee.unit_amount or 0.0
                             self.summary_user[position][0] += employee.unit_amount or 0.0
 

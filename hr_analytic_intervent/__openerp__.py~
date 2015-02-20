@@ -44,7 +44,7 @@ and costs of employee are linked to contract)
         'hr_timesheet_invoice',
         'hr_attendance',          
         'report_aeroo',
-        ],
+    ],
     'init_xml': [], 
     'data': [
         'security/ir.model.access.csv',
@@ -53,7 +53,7 @@ and costs of employee are linked to contract)
         'wizard/work_report_view.xml',
         # intervent_workflow.xml
         'data/hr_timesheet_invoice_data.xml',
-        ],
+    ],
     'demo_xml': [],
     'active': False, 
     'installable': True, 

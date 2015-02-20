@@ -655,6 +655,9 @@ class hr_analytic_timesheet_intervent(orm.Model):
         'move_ids': fields.one2many(
             'stock.move', 'intervent_id', 'Costs', 
             required=False),
+        #'cost_ids': fields.one2many(
+        #    'hr.analytic.timesheet.intervent.cost', 
+        #    'intervent_id', 'Costs', required=False), # TODO remove
         'employee_ids': fields.one2many(
             'hr.analytic.timesheet', 
             'intervent_id', 'Employee', required=False),
