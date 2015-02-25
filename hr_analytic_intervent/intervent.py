@@ -291,7 +291,8 @@ class stock_move(orm.Model):
         @return: returns a id of new record
         """
         # Correction according to direction_move combo:
-        go_out = vals.get('direction_move', 'out') == 'out' # true = go out, false = go in
+        # true = go out, false = go in
+        go_out = vals.get('direction_move', 'out') == 'out' 
         if not go_out: # reverse location (internal > customer in customer > internal)
             (vals['location_dest_id'], vals['location_id']) = (
                 vals['location_id'], vals['location_dest_id'])
@@ -323,9 +324,9 @@ class stock_move(orm.Model):
                 or product_proxy.categ_id.property_account_expense_categ.id \
                 or False
             company_id = product_proxy.company_id.id 
-            unit_amount = vals.get('product_qty', False)
+            unit_amount = vals.get('product_uom_qty', 0.0)
             product_uom_id = vals.get('product_uom', False)
-                
+            
             # Create and link analytic line:
             line_id = line_pool.create(cr, uid, {
                 'name': vals.get('name', product_proxy.name),
@@ -409,7 +410,7 @@ class stock_move(orm.Model):
         stock_pool = self.pool.get('stock.location')
         # >> internal
         stock_ids = stock_pool.search(cr, uid, [
-            ('chained_auto_packing', '=', 'manual'),
+            #('chained_auto_packing', '=', 'manual'),
             ('usage', '=', 'internal'),
         ], context=context)
         res['value']['location_id'] = stock_ids[0] if stock_ids else False 
@@ -417,7 +418,7 @@ class stock_move(orm.Model):
         
         # >> customer
         stock_ids = stock_pool.search(cr, uid, [
-            ('chained_auto_packing', '=', 'manual'),
+            #('chained_auto_packing', '=', 'manual'),
             ('usage', '=', 'customer'),
         ], context=context)
         res['value']['location_dest_id'] = stock_ids[0] if stock_ids else False 

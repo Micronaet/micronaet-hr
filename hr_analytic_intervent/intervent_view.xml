@@ -194,7 +194,7 @@
                                             <field name="extra_invoice" on_change="onchange_extra_invoice(extra_invoice,parent.partner_id,parent.account_id,account_id)" attrs="{'readonly':[('locked','=',True)]}" />
                                             <field name="direction_move" attrs="{'readonly':[('locked','=',True)]}"  />
                                             <field name="product_id" on_change="onchange_product_id_name(product_id,parent.account_id)"/>
-                                            <field name="product_qty" />
+                                            <field name="product_uom_qty" />
                                             <field name="product_uom" />
                                             <field name="locked" invisible="1" />
                                             <field name="force_cost_unit" on_change="onchange_force_cost_unit(product_id,parent.account_id,force_cost_unit)" attrs="{'readonly':[('locked','=',True)]}" />
