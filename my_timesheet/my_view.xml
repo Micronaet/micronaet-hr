@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>    
+        <!--My timesheet-->
+        <record id="action_my_hr_analytic_timesheet_intervent" model="ir.actions.act_window">
+            <field name="name">My timesheet activities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.analytic.timesheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_today":1}</field>
+            <field name="search_view_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="domain">[('user_id','=',uid)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record your activities.
+              </p><p>
+                You can register and track your workings hours by project every
+                day. Every time spent on a project will become a cost in the
+                analytic accounting/contract and can be re-invoiced to
+                customers if required.
+              </p>
+            </field>
+        </record>
+    
+        <menuitem 
+            id="menu_my_hr_analytic_timesheet_intervent" 
+            parent="hr_attendance.menu_hr_time_tracking" 
+            sequence="1" 
+            name="My timesheet" 
+            action="action_my_hr_analytic_timesheet_intervent"
+            />
+
+        <!--Override my timesheet -->
+        <menuitem 
+            id="hr_timesheet.menu_hr_working_hours" 
+            parent="hr_attendance.menu_hr_time_tracking" 
+            action="hr_timesheet.act_hr_timesheet_line_evry1_all_form"
+            groups="base.group_hr_manager"
+            />
+      
+    </data>
+</openerp> 

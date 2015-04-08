@@ -1,0 +1,499 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* hr_analytic_intervent
+# <> <>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-23 14:52+0000\n"
+"PO-Revision-Date: 2014-05-23 16:54+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.line,work_journal_intervent_id:0
+#: field:account.analytic.line,work_journal_timesheet_id:0
+msgid "Work journal row"
+msgstr "Riga giornale di cantiere"
+
+#. module: hr_analytic_intervent
+#: code:addons/hr_analytic_intervent/intervent.py:464
+#, python-format
+msgid "Product sell"
+msgstr "Prodotto venduto"
+
+#. module: hr_analytic_intervent
+#: help:account.analytic.account,pricelist:0
+msgid "This account have a custom pricelist"
+msgstr "Questo conto ha abbinato un listino prezzi personalizzato"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,name:0
+msgid "Annotations, special and general"
+msgstr "Annotazioni, speciali e generali"
+
+#. module: hr_analytic_intervent
+#: view:account.analytic.account:0
+msgid "Ricavi"
+msgstr "Ricavi"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,name:0
+#: field:hr.analytic.timesheet.intervent.weather,note:0
+msgid "Annotations"
+msgstr "Annotazioni"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,direction_move:0
+msgid "Direction"
+msgstr "Direzione"
+
+#. module: hr_analytic_intervent
+#: model:ir.actions.act_window,name:hr_analytic_intervent.action_hr_timesheet_work_journal_wizard_view
+#: model:ir.ui.menu,name:hr_analytic_intervent.menu_hr_analytic_timesheet_intervent
+#: model:ir.ui.menu,name:hr_analytic_intervent.menu_hr_analytic_timesheet_intervent_report_wizard
+msgid "Work journal"
+msgstr "Giornale di cantiere"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_hr_analytic_timesheet_intervent
+msgid "Analytic Intervent"
+msgstr "Intervento analitico"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,economy_note:0
+msgid "Annotations for economy work, special and general"
+msgstr "Annotazioni per lavori in economia, speciali o generali"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,note:0
+msgid "Observation"
+msgstr "Osservazioni"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account.pricelist,account_id:0
+#: field:hr.timesheet.work.journal.wizard,account_id:0
+msgid "Account"
+msgstr "Conto analitico"
+
+#. module: hr_analytic_intervent
+#: code:addons/hr_analytic_intervent/intervent.py:585
+#, python-format
+msgid "Error:"
+msgstr "Errore:"
+
+#. module: hr_analytic_intervent
+#: view:hr.timesheet.work.journal.wizard:0
+msgid "Work Journal"
+msgstr "Gionale di cantiere"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet,intervent_id:0
+#: view:hr.analytic.timesheet.intervent:0 field:stock.move,intervent_id:0
+msgid "Intervent"
+msgstr "Intervento"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_hr_analytic_timesheet_intervent_weather
+msgid "Analytic Intervent weather"
+msgstr "Meteo intervento analitico"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_stock_move
+msgid "Stock Move"
+msgstr "Movimento di magazzino"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Conto Analitico"
+
+#. module: hr_analytic_intervent
+#: field:hr.timesheet.work.journal.wizard,from_date:0
+msgid "From date"
+msgstr "Alla data"
+
+#. module: hr_analytic_intervent
+#: view:account.analytic.line:0 field:account.analytic.line,partner_id:0
+#: view:hr.analytic.timesheet.intervent:0
+#: field:hr.analytic.timesheet.intervent,partner_id:0
+#: model:ir.model,name:hr_analytic_intervent.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,invoice_costs:0
+msgid "Cost to invoice"
+msgstr "Costo da fatturare"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+#: field:hr.analytic.timesheet.intervent,employee_ids:0
+#: model:ir.model,name:hr_analytic_intervent.model_hr_employee
+msgid "Employee"
+msgstr "Dipendente"
+
+#. module: hr_analytic_intervent
+#: field:hr.timesheet.work.journal.wizard,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Total hour"
+msgstr "Ore totali"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account,economy:0
+#: code:addons/hr_analytic_intervent/intervent.py:535
+#, python-format
+msgid "Economy"
+msgstr "Economia"
+
+#. module: hr_analytic_intervent
+#: help:account.analytic.account.pricelist,cost:0
+msgid "Unit Cost for this product line"
+msgstr "Costo unitario per riga prodotto"
+
+#. module: hr_analytic_intervent
+#: model:ir.ui.menu,name:hr_analytic_intervent.menu_hr_analytic_timesheet_intervent_report
+msgid "Report"
+msgstr "Report"
+
+#. module: hr_analytic_intervent
+#: view:account.analytic.account:0
+#: field:account.analytic.account,pricelist_ids:0
+msgid "Pricelist"
+msgstr "Listino"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,locked:0
+msgid "Locked"
+msgstr "Bloccato"
+
+#. module: hr_analytic_intervent
+#: field:hr.employee,short_name:0 field:res.users,short_name:0
+msgid "Ref. in registry"
+msgstr "Rif. nel registro"
+
+#. module: hr_analytic_intervent
+#: help:stock.move,analytic_line_id:0
+msgid "Analytic line linked if there's no invoice for this cost"
+msgstr "Riga analitica se non è ancora stato fatturato il costo"
+
+#. module: hr_analytic_intervent
+#: model:ir.actions.act_window,name:hr_analytic_intervent.action_hr_analytic_timesheet_intervent_form
+msgid "Intervent list"
+msgstr "Lista interventi"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Materials"
+msgstr "Materiali"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Total cost"
+msgstr "Costo totale"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account,pricelist:0
+msgid "Have pricelist"
+msgstr "Ha il listino"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_sale_order_line_covered_wizard
+msgid "Open covered report"
+msgstr "Apri report coperti"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_hr_analytic_timesheet_intervent_cost
+msgid "Intervent costs"
+msgstr "Costi intervento"
+
+#. module: hr_analytic_intervent
+#: help:account.analytic.account,total_progress:0
+msgid "Invoice value on total"
+msgstr "Valore fatturato sul totale"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account,total_progress:0
+msgid "Invoiced"
+msgstr "% Fatturato"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Annotazioni (economia):"
+msgstr "Annotazioni (economia):"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Linea conto analitico"
+
+#. module: hr_analytic_intervent
+#: help:stock.move,extra_invoice:0
+msgid "Need an extra invoice for costs"
+msgstr "Richiede fattura extra per costi"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,invoice_costs:0
+msgid "If the costs are to be invoiced, used for filter elements"
+msgstr "Se il costo deve essere fatturato, utilizzato per filtrare elementi"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,account_id:0
+#: help:stock.move,account_id:0
+msgid "Account analytic, contract, construction"
+msgstr "Conto analitico, contratto, cantiere"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+#: field:hr.analytic.timesheet.intervent,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,extra_invoice:0
+msgid "To invoice"
+msgstr "Economia"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account.pricelist,product_uom:0
+msgid "UOM"
+msgstr "UM"
+
+#. module: hr_analytic_intervent
+#: field:hr.timesheet.work.journal.wizard,summary:0
+msgid "Summary"
+msgstr "Riepilogo"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,note:0
+msgid "Observation and instruction of team manager"
+msgstr "Osservazioni e istruzioni del responsabile"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+#: field:hr.analytic.timesheet.intervent,account_id:0
+#: field:stock.move,account_id:0
+msgid "Account analytic"
+msgstr "Conto analitico"
+
+#. module: hr_analytic_intervent
+#: model:ir.actions.report.xml,name:hr_analytic_intervent.aeroo_intervent_registry_report_id
+msgid "Intervent Registry"
+msgstr "Registro interventi"
+
+#. module: hr_analytic_intervent
+#: field:hr.employee,registry_user:0 field:res.users,registry_user:0
+msgid "User in registry"
+msgstr "Utente nel registro"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet,extra_invoice:0
+msgid "Extra invoice"
+msgstr "Extra fattura"
+
+#. module: hr_analytic_intervent
+#: view:hr.timesheet.work.journal.wizard:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: hr_analytic_intervent
+#: selection:hr.timesheet.work.journal.wizard,type:0
+msgid "Only economy"
+msgstr "Solo economia"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_hr_analytic_timesheet
+msgid "Timesheet Line"
+msgstr "Riga foglio presenze"
+
+#. module: hr_analytic_intervent
+#: help:stock.move,locked:0
+msgid "Locked when saved"
+msgstr "Bloccato quando salvato"
+
+#. module: hr_analytic_intervent
+#: selection:hr.timesheet.work.journal.wizard,type:0
+msgid "Only default account"
+msgstr "Solo commessa"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet,extra_invoice:0
+msgid ""
+"If extra invoice all the intervent are prepared for wizard invoice creation"
+msgstr ""
+"Se spuntato 'extra fattura' tutti gli interventi sono preparati per il "
+"wizard creazione fattura"
+
+#. module: hr_analytic_intervent
+#: help:hr.employee,short_name:0 help:res.users,short_name:0
+msgid ""
+"Short name in registry column (if not present short name no column in report "
+"for this user)"
+msgstr ""
+"Nome abbreviato per il registro (se non presente non verrà indicato nella "
+"colonna l'utente)"
+
+#. module: hr_analytic_intervent
+#: selection:hr.timesheet.work.journal.wizard,type:0
+msgid "All (default and economy)"
+msgstr "Tutto (commessa e economia)"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Osservazioni (economia):"
+msgstr "Osservazioni (economia):"
+
+#. module: hr_analytic_intervent
+#: help:hr.employee,registry_user:0 help:res.users,registry_user:0
+msgid "If the user is in the registry columns"
+msgstr "Se l'utente è presente nel registro di cantiere"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Annotazioni (contratto):"
+msgstr "Annotazioni (contratto):"
+
+#. module: hr_analytic_intervent
+#: selection:stock.move,direction_move:0
+msgid "Move out"
+msgstr "Uscita"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account.pricelist,product_id:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent.weather,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,force_cost_unit:0
+msgid "Force cost unit"
+msgstr "Forza costo unitario"
+
+#. module: hr_analytic_intervent
+#: field:hr.timesheet.work.journal.wizard,to_date:0
+msgid "To date"
+msgstr "Alla data"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account.pricelist,cost:0
+msgid "Cost"
+msgstr "Costo"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,economy_observation:0
+msgid "Economy observation"
+msgstr "Osservazioni economia"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_hr_timesheet_work_journal_wizard
+msgid "Wizard open work journal"
+msgstr "Report giornale di cantiere"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,cost_unit:0
+msgid "Cost unit"
+msgstr "Costo unitario"
+
+#. module: hr_analytic_intervent
+#: view:account.analytic.account:0
+msgid "Costi"
+msgstr "Costi"
+
+#. module: hr_analytic_intervent
+#: model:hr_timesheet_invoice.factor,name:hr_analytic_intervent.timesheet_invoice_factor_100
+msgid "To invoice (100%)"
+msgstr "Da fatturare (100%)"
+
+#. module: hr_analytic_intervent
+#: help:hr.analytic.timesheet.intervent,economy_observation:0
+msgid "Observation for economy work"
+msgstr "Osservazioni per lavoro in economia"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,cost_ids:0
+#: field:hr.analytic.timesheet.intervent,move_ids:0
+msgid "Costs"
+msgstr "Costi"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_res_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: hr_analytic_intervent
+#: field:stock.move,analytic_line_id:0
+msgid "Analytic line link"
+msgstr "Collegamento voce analitica"
+
+#. module: hr_analytic_intervent
+#: selection:stock.move,direction_move:0
+msgid "Move in"
+msgstr "Rientro"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+msgid "Osservazioni (contratto):"
+msgstr "Osservazioni (contratto):"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,default_hour:0
+msgid "Default hour"
+msgstr "Orario predefinito"
+
+#. module: hr_analytic_intervent
+#: model:ir.model,name:hr_analytic_intervent.model_account_analytic_account_pricelist
+msgid "Analytic account pricelist"
+msgstr "Listino conto analitico"
+
+#. module: hr_analytic_intervent
+#: field:hr.analytic.timesheet.intervent,economy_note:0
+msgid "Economy annotations"
+msgstr "Annotazioni lavori in economia"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent:0
+#: field:hr.analytic.timesheet.intervent,weather_id:0
+#: view:hr.analytic.timesheet.intervent.weather:0
+#: model:ir.actions.act_window,name:hr_analytic_intervent.action_hr_analytic_timesheet_intervent_weather_form
+#: model:ir.ui.menu,name:hr_analytic_intervent.menu_hr_analytic_timesheet_intervent_weather
+msgid "Weather"
+msgstr "Meteo"
+
+#. module: hr_analytic_intervent
+#: view:hr.analytic.timesheet.intervent.weather:0
+msgid "Annotations:"
+msgstr "Annotazioni:"
+
+#. module: hr_analytic_intervent
+#: field:account.analytic.account,account_total:0
+msgid "Total"
+msgstr "Totale"
+
+#. module: hr_analytic_intervent
+#: view:hr.timesheet.work.journal.wizard:0
+msgid "Open report"
+msgstr "Apri report"
