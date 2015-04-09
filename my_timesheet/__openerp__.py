@@ -35,6 +35,7 @@ Create a menu for filter my intevent and set up all intervent to manager
         'base',
         'hr_timesheet',
         'hr_attendance',
+        'timesheet_filter_month',
         ],
     'init_xml': [], 
     'data': [
