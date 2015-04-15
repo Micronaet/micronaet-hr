@@ -139,20 +139,68 @@ class account_analytic_account(orm.Model):
         @param context: context arguments, like lang, time zone
         
         @return: returns a id of new record
+        
+        When create an account check if is a contract, in this case create
+        subaccount contract and economy 
         """
         # Check if there's a syntax: "YY-NNN Customer"
+        #print "Create", vals['name']
+        contract = vals.get('contract', False)
+        economy = vals.get('economy', False)
         code = self.get_code(cr, uid,
             vals['name'], 
             vals.get('parent_id', False), 
-            vals.get('contract', False),
-            vals.get('economy', False), 
+            contract,
+            economy, 
             context=context,
             )
         if code: 
             vals['code'] = code
-            
-        return super(account_analytic_account, self).create(
+                
+        parent_id = super(account_analytic_account, self).create(
             cr, uid, vals, context=context)
+
+        # if code then is contract, if force_child then create by journal
+        # economy or contract is for not loop during creation
+        if (context.get('force_child', False) or code) and not (
+                contract or economy):
+            # Create child:
+            if 'partner_id' not in vals:
+                return # TODO error!!!
+                
+            partner_proxy = self.pool.get('res.partner').browse(
+                cr, uid, vals.get('partner_id'), context=context)
+
+            # Create contract:
+            self.create(cr, uid, {
+                'partner_id': partner_proxy.id,
+                'type': 'normal',
+                'parent_id': parent_id,
+                'use_timesheets': True,
+                'pricelist_id': 
+                    partner_proxy.property_product_pricelist \
+                    and partner_proxy.property_product_pricelist.id \
+                    or False,
+                'economy': False,
+                'contract': True,
+                'name': _("Contract")
+                }, context=context)
+            # Create economy
+            self.create(cr, uid, {
+                'partner_id': partner_proxy.id,
+                'type': 'normal',
+                'parent_id': parent_id,
+                'use_timesheets': True,
+                'pricelist_id': 
+                    partner_proxy.property_product_pricelist \
+                    and partner_proxy.property_product_pricelist.id \
+                    or False,
+                'economy': True,    
+                'contract': False,
+                'name': _("Economy")
+                }, context=context)
+                
+            return parent_id
     
     '''def search(self, cr, user, args, offset=0, limit=None, order=None, 
             context=None, count=False):

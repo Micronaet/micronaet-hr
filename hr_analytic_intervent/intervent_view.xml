@@ -153,7 +153,7 @@
                         <field name="default_hour"/>
                         <field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('customer','=',True),('is_company','=',True)]"/>
                         <field name="account_id" domain="[('type','=','view'),('use_timesheets','=',False),('partner_id','=',partner_id)]" 
-                               context="{'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
+                               context="{'force_child':True,'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
                     </group>
                     <group col="4" colspan="4">
                         <separator string="Annotazioni (contratto):" colspan="2" />
