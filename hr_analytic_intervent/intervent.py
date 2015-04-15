@@ -79,8 +79,84 @@ class account_analytic_account(orm.Model):
     """ Add fields for manage economy works
     """    
     
-    _name = 'account.analytic.account'
     _inherit = 'account.analytic.account'
+
+    # ------------------
+    # Override function:
+    # ------------------
+    def create(self, cr, uid, vals, context=None):
+        """
+        Create a new record for a model ModelName
+        @param cr: cursor to database
+        @param uid: id of current user
+        @param vals: provides a data for new record
+        @param context: context arguments, like lang, time zone
+        
+        @return: returns a id of new record
+        """
+        # Check if there's a syntax: "YY-NNN Customer"
+        if vals['name'][2:3] == '-':            
+            vals['code'] = "%s%s%s" % (
+                vals['name'].split(" ")[0][0:8],
+                ".C" if vals.get('contract', False) else "",
+                ".E" if vals.get('economy', False) else "",
+                )
+            
+        return super(account_analytic_account, self).create(
+            cr, uid, vals, context=context)
+    
+    '''def search(self, cr, user, args, offset=0, limit=None, order=None, 
+            context=None, count=False):
+        """
+        Override search ORM method splitting name if there's * char in it, es.:
+        searching: "name1*name2" = search name ilike name1 and name ilike name2 
+    
+        @param cr: cursor to database
+        @param user: id of current user
+        @param args: list of conditions to be applied in search opertion
+        @param offset: default from first record, you can start from n records
+        @param limit: # of records to be comes in answer from search opertion
+        @param order: ordering on any field(s)
+        @param context: context arguments, like lang, time zone
+        @param count: 
+        @return: a list of integers based on search domain
+        """
+        split_element = "*" # TODO parametrize for set up in a view!
+        
+        new_args = []
+        for search_item in args:
+            if len(search_item) == 3 and search_item[0] == 'name':
+                multi_search = search_item[2].split(split_element)
+                if multi_search > 1:
+                    total_split = len(multi_search)
+                    for i in range(0, total_split):
+                        if i != total_split - 1:
+                            new_args.append("&")
+                        new_args.append(('name', 'ilike', multi_search[i]))                    
+                else:
+                    new_args.append(search_item)
+            else:
+                new_args.append(search_item)
+        return super(product_product_override_search, self).search(
+            cr, user, new_args, offset, limit, order, context, count)
+    
+    def name_search(self, cr, uid, name, args = None, operator = 'ilike', 
+            context = None, limit = 80):
+        """ Force name splitted search with search methot yet modify
+        """
+        if args is None:
+            args = []
+    
+        if context is None:
+            context = {}
+    
+        domain = ['|', 
+            ('default_code', 'ilike', name), 
+            ('name', 'ilike', name)]
+        domain.extend(args)
+        ids = self.search(cr, uid, domain, limit=limit, context=context)
+        return super(product_product_override_search, self).name_get(
+            cr, uid, ids, context=context)'''
     
     # ---------------
     # Field function:
@@ -106,6 +182,8 @@ class account_analytic_account(orm.Model):
     }
     
     _defaults = {
+        'economy': lambda *x: False,
+        'contract': lambda *x: False,
         'pricelist': lambda *a: False,
     }
 
@@ -113,7 +191,6 @@ class res_users(orm.Model):
     ''' Extra field for users
     '''
     
-    _name = 'res.users'
     _inherit = 'res.users'
     
     _columns = {
@@ -125,7 +202,6 @@ class hr_employee(orm.Model):
     ''' Extra field for employee
     '''
     
-    _name = 'hr.employee'
     _inherit = 'hr.employee'
     
     _columns = {
@@ -140,6 +216,7 @@ class hr_employee(orm.Model):
 class hr_analytic_timesheet_intervent_weather(orm.Model):
     ''' Weather conditions 
     '''
+    
     _name = 'hr.analytic.timesheet.intervent.weather'
     _description = 'Analytic Intervent weather'
     
@@ -274,7 +351,6 @@ class stock_move(orm.Model):
     ''' List of cost linked to intervent TODO replare cost
     '''
     
-    _name = 'stock.move'
     _inherit = 'stock.move'
     
     # ------------------
@@ -391,7 +467,6 @@ class stock_move(orm.Model):
         ''' On change extra invoice check
             Operations quite the same for intervent>use same onchange procedure
         '''
-        
         # Use the same function for intervent:
         return self.pool.get('hr.analytic.timesheet').onchange_extra_invoice(
             cr, uid, ids, extra_invoice, parent_partner_id, parent_account_id, 
@@ -477,7 +552,7 @@ class stock_move(orm.Model):
             cr, uid, context=context)
             
     _columns = {
-        'extra_invoice':fields.boolean('To invoice', required=False, 
+        'extra_invoice':fields.boolean('To invoice',
             help='Need an extra invoice for costs'),
         'account_id': fields.many2one('account.analytic.account', 
             'Account analytic', required=False, 
@@ -508,7 +583,6 @@ class hr_analytic_timesheet(orm.Model):
     ''' Add relation field
     '''
     
-    _name = 'hr.analytic.timesheet'
     _inherit = 'hr.analytic.timesheet'
     
     # -----------------
@@ -522,7 +596,8 @@ class hr_analytic_timesheet(orm.Model):
                from ir_model_data 
                where module = 'hr_analytic_intervent' 
                    and name = 'timesheet_invoice_factor_100';""")
-        return cr.fetchone()[0] or 0                
+        res = cr.fetchone()[0] or 0                         
+        return res
     
     def get_sub_account(self, cr, uid, parent_account_id, partner_proxy, 
             economy=True, context=None):
@@ -567,12 +642,12 @@ class hr_analytic_timesheet(orm.Model):
     # -----------------
     # on change method:
     # -----------------
-    def on_change_account_id_bis(self, cr, uid, ids, account_id, user_id, 
-            extra_invoice, context=None):
+    def on_change_account_id_bis(self, cr, uid, ids, account_id, 
+            #user_id, extra_invoice, 
+            context=None):
         ''' Override function for problem setting to_invoice value (default 
             function reset the value)
         '''
-        
         res = super(hr_analytic_timesheet, self).on_change_account_id(
             cr, uid, ids, account_id, user_id)
         if extra_invoice:
@@ -633,11 +708,11 @@ class hr_analytic_timesheet(orm.Model):
             context=context)
         
     _columns = {
-        'extra_invoice': fields.boolean('Extra invoice', required=False, 
+        'extra_invoice': fields.boolean('Extra invoice', 
             help='If extra invoice all the intervent are prepared for wizard invoice creation'),
         'intervent_id': fields.many2one(
             'hr.analytic.timesheet.intervent', 'Intervent', ondelete='cascade', 
-            required=False),
+            ),
     }
     _defaults = {
         'extra_invoice': lambda *x: False,

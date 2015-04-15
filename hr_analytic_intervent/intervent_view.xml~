@@ -175,7 +175,11 @@
 	                                        <field name="product_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1" />
 	                                        <field name="unit_amount" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" sum="Total hour" widget="float_time" />
 	                                        <field name="product_uom_id" on_change="on_change_unit_amount(product_id,unit_amount,company_id,product_uom_id,journal_id)" invisible = "1"/>
-	                                        <field name="account_id" domain="[('type','=','normal'),('use_timesheets','=',True),('partner_id','=',parent.partner_id)]" on_change="on_change_account_id_bis(account_id, user_id, extra_invoice)" context="{'default_use_timesheets':True,'default_type':'normal','default_partner_id':parent.partner_id}"/>
+	                                        <field name="account_id" 
+	                                            domain="[('type','=','normal'),('use_timesheets','=',True),('partner_id','=',parent.partner_id)]" 	                                            
+	                                            context="{'default_use_timesheets':True,'default_type':'normal','default_partner_id':parent.partner_id}"
+	                                            invisible="1"
+	                                            /><!--on_change="on_change_account_id_bis(account_id, user_id, extra_invoice)"-->
 	                                        <field name="general_account_id" invisible = "1"/>
 	                                        <field name="company_id" invisible="1" />
 	                                        <field name="to_invoice" invisible="1"/>
@@ -199,7 +203,7 @@
                                             <field name="locked" invisible="1" />
                                             <field name="force_cost_unit" on_change="onchange_force_cost_unit(product_id,parent.account_id,force_cost_unit)" attrs="{'readonly':[('locked','=',True)]}" />
                                             <field name="cost_unit" invisible="1" groups="base.group_hr_manager" attrs="{'readonly':[('locked','=',True)]}" />
-                                            <field name="account_id" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="account_id" invisible="1" /> <!--attrs="{'readonly':[('locked','=',True)]}"-->
                                             <field name="analytic_line_id" invisible="1" />
                                             <!--<field name="type" invisible="1"/>-->
                                             <field name="intervent_id" invisible="1"/>
