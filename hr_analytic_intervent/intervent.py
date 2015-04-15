@@ -81,9 +81,55 @@ class account_analytic_account(orm.Model):
     
     _inherit = 'account.analytic.account'
 
+    def get_code(self, cr, uid, name, parent_id, contract, economy, 
+            context=None):
+        ''' Utility for create code depend on name:
+        '''
+        if contract or economy: # change name with parent one's
+            if parent_id:
+                name = self.browse(cr, uid, parent_id, context=context).name
+            else:    
+                return False # no parent (error)
+
+        if name[2:3] == '-':            
+            return "%s%s%s" % (
+                name.split(" ")[0][0:8],
+                ".C" if contract else "",
+                ".E" if economy else "",
+                )
+        return False
     # ------------------
     # Override function:
     # ------------------
+    def write(self, cr, uid, ids, vals, context=None):
+        """
+        Update redord(s) comes in {ids}, with new value comes as {vals}
+        return True on success, False otherwise
+    
+        @param cr: cursor to database
+        @param uid: id of current user
+        @param ids: list of record ids to be update
+        @param vals: dict of new values to be set
+        @param context: context arguments, like lang, time zone
+        
+        @return: True on success, False otherwise
+        """
+        # Force code in name is in style "AA-NNN Customer"
+        previous_proxy = self.browse(cr, uid, ids, context=context)[0]
+
+        code = self.get_code(cr, uid,
+            vals.get('name', previous_proxy.name),
+            vals.get('parent_id', previous_proxy.parent_id.id),
+            vals.get('contract', previous_proxy.contract or False),
+            vals.get('economy', previous_proxy.economy or False),
+            context=context,
+            )
+        if code:
+            vals['code'] = code
+            
+        return super(account_analytic_account, self).write(
+            cr, uid, ids, vals, context=context)
+    
     def create(self, cr, uid, vals, context=None):
         """
         Create a new record for a model ModelName
@@ -95,12 +141,15 @@ class account_analytic_account(orm.Model):
         @return: returns a id of new record
         """
         # Check if there's a syntax: "YY-NNN Customer"
-        if vals['name'][2:3] == '-':            
-            vals['code'] = "%s%s%s" % (
-                vals['name'].split(" ")[0][0:8],
-                ".C" if vals.get('contract', False) else "",
-                ".E" if vals.get('economy', False) else "",
-                )
+        code = self.get_code(cr, uid,
+            vals['name'], 
+            vals.get('parent_id', False), 
+            vals.get('contract', False),
+            vals.get('economy', False), 
+            context=context,
+            )
+        if code: 
+            vals['code'] = code
             
         return super(account_analytic_account, self).create(
             cr, uid, vals, context=context)
@@ -724,7 +773,6 @@ class hr_analytic_timesheet_intervent(orm.Model):
     ''' Add *2many fields
     '''
     
-    _name = 'hr.analytic.timesheet.intervent'
     _inherit = 'hr.analytic.timesheet.intervent'
 
     _columns = {
@@ -740,7 +788,6 @@ class account_analytic_line(orm.Model):
     """ Add fields for manage economy works
     """    
     
-    _name = 'account.analytic.line'
     _inherit = 'account.analytic.line'
     
     def _get_hr_timesheet(self, cr, uid, ids, name, args, context=None):
