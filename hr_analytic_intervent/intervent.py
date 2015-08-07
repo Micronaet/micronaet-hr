@@ -823,6 +823,31 @@ class hr_analytic_timesheet_intervent(orm.Model):
     
     _inherit = 'hr.analytic.timesheet.intervent'
 
+    def on_change_transport(self, cr, uid, ids, product_id, account_id, 
+            unit_amount, context=None):
+        '''
+        '''
+        res = {}
+        if not product_id:
+            return res
+            
+        product_pool = self.pool.get('product.product')
+        product_proxy = product_pool.browse(
+            cr, uid, product_id, context=context)
+        
+        res['value'] = {
+            'name': _('Transport: %s') % product_proxy.name,
+            #'journal_id': , # TODO (new journal?)
+            'categ_id': product_proxy.property_account_expense.id or \ 
+                product_proxy.property_account_expense_categ.id,
+            'user_id': uid,
+            'product_uom_id': product_proxy.uom_id.id,
+            'amount': product_proxy.standard_price * unit_amount,
+            #'unit_amount_price':   #'unit_price': 
+            }
+            
+        return res
+            
     _columns = {
         'move_ids': fields.one2many(
             'stock.move', 'intervent_id', 'Costs', 
