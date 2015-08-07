@@ -141,6 +141,17 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_product_product_is_transport_form">
+            <field name="name">product.product.transport</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <field name="sale_ok" position="before">
+                    <field name="is_transport" />
+                </field>            
+            </field>
+       </record>             
+
         <record model="ir.ui.view" id="view_hr_analytic_timesheet_intervent_form">
             <field name="name">hr.analytic.timesheet.intervent.form</field>
             <field name="model">hr.analytic.timesheet.intervent</field>
@@ -219,20 +230,19 @@
                                     <field name="transport_ids" colspan="4" nolabel="1" context="{'default_partner_id':partner_id,'default_date':date,'default_account_id':account_id}"> <!--_expected-->
                                         <tree string="Transport" editable="bottom">
 	                                        <field name="date" />
-	                                        <field name="ref" />
-	                                        <field name="name" />
-	                                        <field name="user_id" />
+	                                        <field name="product_id" domain="[('is_transport','=',True)]" string="Transport" on_change="on_change_transport(product_id, account_id, unit_amount)" />
+	                                        <field name="unit_amount" on_change="on_change_transport(product_id, account_id, unit_amount)" />
+	                                        <field name="amount" sum='total'/>
+
+	                                        <field name="ref" invisible="1"/>
+	                                        <field name="name" invisible="1" />
+	                                        <field name="user_id" invisible="1" />
 	                                        <field name="journal_id" /><!--invisible="context.get('to_invoice', False)" modifiers="{'required': true, 'tree_invisible': false}"/>-->
-	                                        <field name="amount" /><!--sum="Totale" invisible="context.get('to_invoice', False)" modifiers="{'required': true, 'tree_invisible': false}"/>-->
-	                                        <field name="product_id" on_change="on_change_transport(product_id, account_id, unit_amount)" />
-	                                        <!--<field name="unit_amount_price" />-->
-	                                        <field name="unit_amount" on_change="on_change_transport(product_id, account_id, unit_amount)" sum='total'/>
-	                                        <field name="product_uom_id" /><!-- on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id)" invisible="not context.get('to_invoice', False)" modifiers="{'tree_invisible': true}"/>-->
-	                                        <field name="account_id" domain="[('type','=','normal')]" />
-	                                        <field name="to_invoice"/>
-	                                        <field name="partner_id"/>
-	                                        <field name="general_account_id"/>
-	                                        <field name="company_id" invisible="1"/>
+	                                        <field name="product_uom_id" invisible="1" /><!-- on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id)" invisible="not context.get('to_invoice', False)" modifiers="{'tree_invisible': true}"/>-->
+	                                        <field name="account_id" invisible="1" />
+	                                        <field name="to_invoice" invisible="1" />
+	                                        <field name="partner_id" invisible="1" />
+	                                        <field name="general_account_id" invisible="1"/>
                                         </tree>                                    
                                     </field>
                                  </group>   

@@ -765,6 +765,17 @@ class hr_analytic_timesheet(orm.Model):
     }
 
 
+class ProductProduct(orm.Model):
+    """ Add fields for manage economy works
+    """    
+    
+    _inherit = 'product.product'
+    
+    _columns = {
+        'is_transport': fields.boolean('Is Transport'),
+        }
+    
+
 class account_analytic_line(orm.Model):
     """ Add fields for manage economy works
     """    
@@ -774,38 +785,61 @@ class account_analytic_line(orm.Model):
     # ---------------
     # Onchange event:
     # ---------------
-    def on_change_transport(self, cr, uid, product_id, account_id, 
+    def on_change_transport(self, cr, uid, ids, product_id, account_id, 
             unit_amount, context=None):
         ''' Set up all needed fields for create an analytic account
         '''
         res = {}
         if not product_id:
             return res
+        if not account_id:
+            _logger.error(
+                'Account ID not present during onchange for transport')    
             
         product_pool = self.pool.get('product.product')
         product_proxy = product_pool.browse(
             cr, uid, product_id, context=context)
 
-        account_pool = self.pool.get('account.analytic.accoint')
+        account_pool = self.pool.get('account.analytic.account')
         account_proxy = account_pool.browse(
             cr, uid, account_id, context=context)
-        
+
+        # Search account child
+        if not account_proxy.contract: # is a parent
+            child_ids = account_pool.search(cr, uid, [
+                ('parent_id', '=', account_id),
+                ('contract', '=', True),
+                ], context=context)        
+            if child_ids:
+                account_id = child_ids[0]
+            else: # Error in child not present    
+                _logger.error(
+                    'Cannot find correct account (no child): %s' % account_id)
+                res['warning'] = {
+                    'title': 
+                        _('Analytic account:'),
+                    'message': 
+                        _('Cannot assign child contract analytic account'),
+                    }
+                return res # Error account not well created
+
+        # Add default data for creata an account.analytic.line            
         res['value'] = {
             'name': _('Transport: %s') % product_proxy.name,
             'ref': _('Trip: %s [%s]') % (
                 product_proxy.default_code, 
                 account_proxy.code,
-                )
-            #'journal_id': , # TODO (new journal?)
-            'general_accont_id': 
+                ),
+            'general_account_id': 
                 product_proxy.property_account_expense.id or \
-                product_proxy.property_account_expense_categ.id,
+                product_proxy.categ_id.property_account_expense_categ.id,
             'user_id': uid,
             'product_uom_id': product_proxy.uom_id.id,
             'amount': product_proxy.standard_price * unit_amount,
-            #'unit_amount_price':   #'unit_price': 
-            }
-            
+            'account_id': account_id,
+            #'journal_id': , # TODO (new journal?)
+            #'to_invoice' 'unit_amount_price' 'unit_price'
+            }                    
         return res
 
     # ----------------- 
