@@ -153,7 +153,7 @@
                         <field name="default_hour"/>
                         <field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('customer','=',True),('is_company','=',True)]"/>
                         <field name="account_id" domain="[('type','=','view'),('use_timesheets','=',False),('partner_id','=',partner_id)]" 
-                               context="{'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
+                               context="{'force_child':True,'default_use_timesheets':False,'default_type':'view','default_partner_id':partner_id}" colspan="4"/>
                     </group>
                     <group col="4" colspan="4">
                         <separator string="Annotazioni (contratto):" colspan="2" />
@@ -210,6 +210,48 @@
                                             <field name="location_id" invisible="1"/>
                                             <field name="location_dest_id" invisible="1"/>
                                             <field name="state" invisible="1"/>
+                                        </tree>                                    
+                                    </field>
+                                 </group>   
+                            </page>    
+                            <page string="Transport">
+                                <group col="4" colspan="4">
+                                    <field name="transport_ids" colspan="4" nolabel="1" context="{'default_partner_id':partner_id,'default_direction_move':'out','default_type':'out','default_date':date,'parent_account_id':account_id}"> <!--_expected-->
+                                        <tree string="Transport" editable="bottom">
+                                        
+	<field name="date" />
+	<field name="ref" />
+	<field name="name" />
+	<field name="user_id" />
+	<field name="journal_id" /><!--invisible="context.get('to_invoice', False)" modifiers="{'required': true, 'tree_invisible': false}"/>-->
+	<field name="amount" /><!--sum="Totale" invisible="context.get('to_invoice', False)" modifiers="{'required': true, 'tree_invisible': false}"/>-->
+	<field name="product_id" /><!--on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id, journal_id)" invisible="not context.get('to_invoice', False)" modifiers="{'tree_invisible': true}"/>-->
+	<field name="unit_amount_price" />
+	<field name="unit_amount" /><!--on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id)" sum="Quantità totale" modifiers="{}"/>-->
+	<field name="product_uom_id" /><!-- on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id)" invisible="not context.get('to_invoice', False)" modifiers="{'tree_invisible': true}"/>-->
+	<field domain="[('type','=','normal')]" name="account_id"/>
+	<field name="to_invoice"/>
+	<field name="partner_id"/>
+	<field name="product_id"/>
+	<field name="general_account_id"/>
+	<field name="company_id" invisible="1"/>
+
+                                            <!--<field name="name" invisible="1"/>
+                                            <field name="date_expected" invisible="1" />
+                                            <field name="extra_invoice" on_change="onchange_extra_invoice(extra_invoice,parent.partner_id,parent.account_id,account_id)" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="direction_move" attrs="{'readonly':[('locked','=',True)]}"  />
+                                            <field name="product_id" on_change="onchange_product_id_name(product_id,parent.account_id)"/>
+                                            <field name="product_uom_qty" />
+                                            <field name="product_uom" />
+                                            <field name="locked" invisible="1" />
+                                            <field name="force_cost_unit" on_change="onchange_force_cost_unit(product_id,parent.account_id,force_cost_unit)" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="cost_unit" invisible="1" groups="base.group_hr_manager" attrs="{'readonly':[('locked','=',True)]}" />
+                                            <field name="account_id" invisible="1" /> 
+                                            <field name="analytic_line_id" invisible="1" />
+                                            <field name="intervent_id" invisible="1"/>
+                                            <field name="location_id" invisible="1"/>
+                                            <field name="location_dest_id" invisible="1"/>
+                                            <field name="state" invisible="1"/>-->
                                         </tree>                                    
                                     </field>
                                  </group>   

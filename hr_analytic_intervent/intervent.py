@@ -815,7 +815,7 @@ class account_analytic_line(orm.Model):
             method=True, type='float', 
             string='Unit price', 
             store=False),        
-    }
+        }
 
 class hr_analytic_timesheet_intervent(orm.Model):
     ''' Add *2many fields
@@ -831,8 +831,8 @@ class hr_analytic_timesheet_intervent(orm.Model):
             'hr.analytic.timesheet', 
             'intervent_id', 'Employee', required=False),
         'transport_ids': fields.one2many(
-            'account.analytic.timesheet', 'timesheet_transport_id', 
+            'account.analytic.line', 'timesheet_transport_id', 
             'Transport'),
-    }
+        }
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
