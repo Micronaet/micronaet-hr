@@ -231,16 +231,16 @@
                                 <group col="4" colspan="4">
                                     <field name="transport_ids" colspan="4" nolabel="1" context="{'default_partner_id':partner_id,'default_date':date,'default_account_id':account_id}"> <!--_expected-->
                                         <tree string="Transport" editable="bottom">
-	                                        <field name="date" />
 	                                        <field name="product_id" domain="[('is_transport','=',True)]" string="Transport" on_change="on_change_transport(product_id, account_id, unit_amount)" />
 	                                        <field name="unit_amount" on_change="on_change_transport(product_id, account_id, unit_amount)" />
 	                                        <field name="amount" sum='total'/>
+	                                        <field name="date" />
 
 	                                        <field name="ref" invisible="1"/>
 	                                        <field name="name" invisible="1" />
 	                                        <field name="user_id" invisible="1" />
-	                                        <field name="journal_id" /><!--invisible="context.get('to_invoice', False)" modifiers="{'required': true, 'tree_invisible': false}"/>-->
-	                                        <field name="product_uom_id" invisible="1" /><!-- on_change="on_change_unit_amount(product_id, unit_amount, company_id, product_uom_id)" invisible="not context.get('to_invoice', False)" modifiers="{'tree_invisible': true}"/>-->
+	                                        <field name="journal_id" invisible="1"/>
+	                                        <field name="product_uom_id" invisible="1" />
 	                                        <field name="account_id" invisible="1" />
 	                                        <field name="to_invoice" invisible="1" />
 	                                        <field name="partner_id" invisible="1" />
