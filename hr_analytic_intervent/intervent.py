@@ -202,59 +202,6 @@ class account_analytic_account(orm.Model):
                 
             return parent_id
     
-    '''def search(self, cr, user, args, offset=0, limit=None, order=None, 
-            context=None, count=False):
-        """
-        Override search ORM method splitting name if there's * char in it, es.:
-        searching: "name1*name2" = search name ilike name1 and name ilike name2 
-    
-        @param cr: cursor to database
-        @param user: id of current user
-        @param args: list of conditions to be applied in search opertion
-        @param offset: default from first record, you can start from n records
-        @param limit: # of records to be comes in answer from search opertion
-        @param order: ordering on any field(s)
-        @param context: context arguments, like lang, time zone
-        @param count: 
-        @return: a list of integers based on search domain
-        """
-        split_element = "*" # TODO parametrize for set up in a view!
-        
-        new_args = []
-        for search_item in args:
-            if len(search_item) == 3 and search_item[0] == 'name':
-                multi_search = search_item[2].split(split_element)
-                if multi_search > 1:
-                    total_split = len(multi_search)
-                    for i in range(0, total_split):
-                        if i != total_split - 1:
-                            new_args.append("&")
-                        new_args.append(('name', 'ilike', multi_search[i]))                    
-                else:
-                    new_args.append(search_item)
-            else:
-                new_args.append(search_item)
-        return super(product_product_override_search, self).search(
-            cr, user, new_args, offset, limit, order, context, count)
-    
-    def name_search(self, cr, uid, name, args = None, operator = 'ilike', 
-            context = None, limit = 80):
-        """ Force name splitted search with search methot yet modify
-        """
-        if args is None:
-            args = []
-    
-        if context is None:
-            context = {}
-    
-        domain = ['|', 
-            ('default_code', 'ilike', name), 
-            ('name', 'ilike', name)]
-        domain.extend(args)
-        ids = self.search(cr, uid, domain, limit=limit, context=context)
-        return super(product_product_override_search, self).name_get(
-            cr, uid, ids, context=context)'''
-    
     # ---------------
     # Field function:
     # ---------------
@@ -817,20 +764,6 @@ class hr_analytic_timesheet(orm.Model):
             cr, uid, context=ctx),
     }
 
-class hr_analytic_timesheet_intervent(orm.Model):
-    ''' Add *2many fields
-    '''
-    
-    _inherit = 'hr.analytic.timesheet.intervent'
-
-    _columns = {
-        'move_ids': fields.one2many(
-            'stock.move', 'intervent_id', 'Costs', 
-            required=False),
-        'employee_ids': fields.one2many(
-            'hr.analytic.timesheet', 
-            'intervent_id', 'Employee', required=False),
-    }
 
 class account_analytic_line(orm.Model):
     """ Add fields for manage economy works
@@ -866,6 +799,8 @@ class account_analytic_line(orm.Model):
         return res
 
     _columns = {
+        'timesheet_transport_id': fields.many2one(
+            'hr.analytic.timesheet.intervent', string='Timesheet transport'),
         'partner_id': fields.related('account_id','partner_id', 
             type='many2one', relation='res.partner', string='Partner', 
             store=True),
@@ -881,4 +816,23 @@ class account_analytic_line(orm.Model):
             string='Unit price', 
             store=False),        
     }
+
+class hr_analytic_timesheet_intervent(orm.Model):
+    ''' Add *2many fields
+    '''
+    
+    _inherit = 'hr.analytic.timesheet.intervent'
+
+    _columns = {
+        'move_ids': fields.one2many(
+            'stock.move', 'intervent_id', 'Costs', 
+            required=False),
+        'employee_ids': fields.one2many(
+            'hr.analytic.timesheet', 
+            'intervent_id', 'Employee', required=False),
+        'transport_ids': fields.one2many(
+            'account.analytic.timesheet', 'timesheet_transport_id', 
+            'Transport'),
+    }
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
