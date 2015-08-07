@@ -853,7 +853,7 @@ class account_analytic_line(orm.Model):
                 product_proxy.categ_id.property_account_expense_categ.id,
             'user_id': uid,
             'product_uom_id': product_proxy.uom_id.id,
-            'amount': product_proxy.standard_price * unit_amount,
+            'amount': - product_proxy.standard_price * unit_amount,
             'account_id': account_id,
             'journal_id': journal_id,
             #'to_invoice' 'unit_amount_price' 'unit_price'
