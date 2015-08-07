@@ -141,13 +141,15 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_product_product_is_transport_form">
-            <field name="name">product.product.transport</field>
-            <field name="model">product.product</field>
+        <record model="ir.ui.view" id="view_product_template_is_transport_form">
+            <field name="name">product.template.transport</field>
+            <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
                 <field name="sale_ok" position="before">
                     <field name="is_transport" />
+                    <label for="is_transport" />
+                    <newline />
                 </field>            
             </field>
        </record>             

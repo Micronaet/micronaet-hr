@@ -765,11 +765,11 @@ class hr_analytic_timesheet(orm.Model):
     }
 
 
-class ProductProduct(orm.Model):
+class ProductTemplate(orm.Model):
     """ Add fields for manage economy works
     """    
     
-    _inherit = 'product.product'
+    _inherit = 'product.template'
     
     _columns = {
         'is_transport': fields.boolean('Is Transport'),
@@ -788,14 +788,32 @@ class account_analytic_line(orm.Model):
     def on_change_transport(self, cr, uid, ids, product_id, account_id, 
             unit_amount, context=None):
         ''' Set up all needed fields for create an analytic account
-        '''
+        '''        
         res = {}
+        
+        def get_journal_id(self, cr, uid, context=None):
+            ''' Transport use a personal journal that is created here (bad!)
+                if not exist
+            '''
+            journal_pool = self.pool.get('account.analytic.journal')
+            journal_ids = journal_pool.search(cr, uid, [
+                ('code', '=', 'TRANSP')], context=context)
+            if journal_ids:
+                return journal_ids[0]
+            return journal_pool.create(cr, uid, {
+                'name': 'Transport',
+                'code': 'TRANSP',
+                'type': 'general',
+                'active': True,
+                }, context=context)    
+            
         if not product_id:
             return res
         if not account_id:
             _logger.error(
                 'Account ID not present during onchange for transport')    
-            
+        journal_id = get_journal_id(self, cr, uid, context=context)
+
         product_pool = self.pool.get('product.product')
         product_proxy = product_pool.browse(
             cr, uid, product_id, context=context)
@@ -837,7 +855,7 @@ class account_analytic_line(orm.Model):
             'product_uom_id': product_proxy.uom_id.id,
             'amount': product_proxy.standard_price * unit_amount,
             'account_id': account_id,
-            #'journal_id': , # TODO (new journal?)
+            'journal_id': journal_id,
             #'to_invoice' 'unit_amount_price' 'unit_price'
             }                    
         return res
