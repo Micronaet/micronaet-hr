@@ -771,8 +771,48 @@ class account_analytic_line(orm.Model):
     
     _inherit = 'account.analytic.line'
     
+    # ---------------
+    # Onchange event:
+    # ---------------
+    def on_change_transport(self, cr, uid, product_id, account_id, 
+            unit_amount, context=None):
+        ''' Set up all needed fields for create an analytic account
+        '''
+        res = {}
+        if not product_id:
+            return res
+            
+        product_pool = self.pool.get('product.product')
+        product_proxy = product_pool.browse(
+            cr, uid, product_id, context=context)
+
+        account_pool = self.pool.get('account.analytic.accoint')
+        account_proxy = account_pool.browse(
+            cr, uid, account_id, context=context)
+        
+        res['value'] = {
+            'name': _('Transport: %s') % product_proxy.name,
+            'ref': _('Trip: %s [%s]') % (
+                product_proxy.default_code, 
+                account_proxy.code,
+                )
+            #'journal_id': , # TODO (new journal?)
+            'general_accont_id': 
+                product_proxy.property_account_expense.id or \
+                product_proxy.property_account_expense_categ.id,
+            'user_id': uid,
+            'product_uom_id': product_proxy.uom_id.id,
+            'amount': product_proxy.standard_price * unit_amount,
+            #'unit_amount_price':   #'unit_price': 
+            }
+            
+        return res
+
+    # ----------------- 
+    # Utility function:
+    # ----------------- 
     def _get_hr_timesheet(self, cr, uid, ids, name, args, context=None):
-        ''' Serch relative intervent in work journal
+        ''' Search relative intervent in work journal
         '''
         res = dict.fromkeys(ids, False)
         try:
@@ -800,8 +840,9 @@ class account_analytic_line(orm.Model):
 
     _columns = {
         'timesheet_transport_id': fields.many2one(
-            'hr.analytic.timesheet.intervent', string='Timesheet transport'),
-        'partner_id': fields.related('account_id','partner_id', 
+            'hr.analytic.timesheet.intervent', string='Timesheet transport',
+            ondelete='cascade'),
+        'partner_id': fields.related('account_id','partner_id',
             type='many2one', relation='res.partner', string='Partner', 
             store=True),
         'work_journal_intervent_id': fields.many2one(
@@ -823,31 +864,6 @@ class hr_analytic_timesheet_intervent(orm.Model):
     
     _inherit = 'hr.analytic.timesheet.intervent'
 
-    def on_change_transport(self, cr, uid, ids, product_id, account_id, 
-            unit_amount, context=None):
-        '''
-        '''
-        res = {}
-        if not product_id:
-            return res
-            
-        product_pool = self.pool.get('product.product')
-        product_proxy = product_pool.browse(
-            cr, uid, product_id, context=context)
-        
-        res['value'] = {
-            'name': _('Transport: %s') % product_proxy.name,
-            #'journal_id': , # TODO (new journal?)
-            'categ_id': product_proxy.property_account_expense.id or \ 
-                product_proxy.property_account_expense_categ.id,
-            'user_id': uid,
-            'product_uom_id': product_proxy.uom_id.id,
-            'amount': product_proxy.standard_price * unit_amount,
-            #'unit_amount_price':   #'unit_price': 
-            }
-            
-        return res
-            
     _columns = {
         'move_ids': fields.one2many(
             'stock.move', 'intervent_id', 'Costs', 
